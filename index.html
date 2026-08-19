@@ -120,48 +120,35 @@
   .sub { margin-top: .8rem; max-width: 62ch; color: var(--muted); }
   .sub b { color: var(--bone); font-weight: 500; }
 
-  /* ---------- lineage placards ---------- */
-  .placards {
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    overflow: hidden;
+  /* ---------- the canto ---------- */
+  .canto {
+    margin-top: 9vh;
+    padding: 9vh 24px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    text-align: center;
   }
-  @media (max-width: 860px) { .placards { grid-template-columns: 1fr; } }
-  .work {
-    background: var(--surface);
-    padding: 26px 24px 28px;
+  .canto p {
+    font-size: clamp(1.25rem, 2.6vw, 1.75rem);
+    font-style: italic;
+    line-height: 1.75;
+    max-width: 34ch;
+    margin: 0 auto;
+    text-wrap: balance;
+    color: var(--bone);
   }
-  .work .field {
+  .canto p + p { margin-top: 2.6em; }
+  .canto .hush { color: var(--muted); }
+  .canto .being { color: var(--wave); }
+  .canto .seal {
+    margin-top: 3.2em;
     font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.3em;
+    font-style: normal;
+    font-size: 0.72rem;
+    letter-spacing: 0.42em;
     text-transform: uppercase;
     color: var(--gold);
   }
-  .work h3 {
-    margin-top: 10px;
-    font-size: 1.28rem;
-    font-weight: 500;
-    font-style: italic;
-    letter-spacing: 0.01em;
-  }
-  .work .attr {
-    margin-top: 3px;
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
-  .work p {
-    margin-top: 14px;
-    font-size: 0.94rem;
-    color: var(--bone);
-    opacity: .92;
-  }
-  .work p i { color: var(--wave); font-style: normal; }
 
   /* ---------- the three chambers ---------- */
   .chambers { margin-top: 40px; display: grid; gap: 14px; }
@@ -253,52 +240,26 @@
     </div>
   </header>
 
-  <section>
-    <div class="eyebrow">The lineage</div>
-    <h2>Made by hand, all the way back</h2>
-    <p class="sub">
-      The works that last were carried by a person the whole way. Northwave holds game audio to the
-      same standard: <b>the most personal is the most creative</b> — a real room, a real microphone,
-      a real pair of hands.
-    </p>
-    <div class="placards">
-      <div class="work">
-        <div class="field">Sculpture</div>
-        <h3>David</h3>
-        <div class="attr">Michelangelo · 1501–1504 · marble</div>
-        <p>The figure was already in the stone; the work was subtraction. <i>The sound is already in the world. Go record it.</i></p>
-      </div>
-      <div class="work">
-        <div class="field">Painting</div>
-        <h3>Mona Lisa</h3>
-        <div class="attr">Leonardo da Vinci · c. 1503–1519 · oil on poplar</div>
-        <p>A lifetime of observation in one held gaze. <i>Recording is observation with your ears.</i></p>
-      </div>
-      <div class="work">
-        <div class="field">Fresco</div>
-        <h3>The School of Athens</h3>
-        <div class="attr">Raphael · 1509–1511 · fresco</div>
-        <p>Fifty figures, one harmony — nothing shouts. <i>That is what a mix is: levels that make room for each other.</i></p>
-      </div>
-      <div class="work">
-        <div class="field">Sculpture</div>
-        <h3>David</h3>
-        <div class="attr">Donatello · c. 1440s · bronze</div>
-        <p>The first David, a century before the famous one. <i>Somebody always records the first take.</i></p>
-      </div>
-      <div class="work">
-        <div class="field">Requiem</div>
-        <h3>Lacrimosa</h3>
-        <div class="attr">Mozart · 1791 · left unfinished at bar 8</div>
-        <p>Death took the pen mid-phrase; other hands finished it. <i>The tree will not ship until the work is whole.</i></p>
-      </div>
-      <div class="work">
-        <div class="field">Symphony</div>
-        <h3>Symphony No. 9</h3>
-        <div class="attr">Beethoven · 1824 · written deaf</div>
-        <p>He composed the Ninth without hearing a note of it. <i>The game is built for the blind first. The picture comes after.</i></p>
-      </div>
-    </div>
+  <section class="canto">
+    <p class="hush">A world begins with air.<br>
+    Before the footsteps, before the doors,<br>
+    before anyone says a word —<br>
+    a room, holding its breath.</p>
+
+    <p>Everything you will ever hear<br>
+    happens between two silences.<br>
+    What passes between them is the whole of it —<br>
+    the first cry, the work, the requiem.</p>
+
+    <p class="being">A game is a small world asking to exist.<br>
+    To be, in a world, is to be heard.</p>
+
+    <p class="hush">So we do not generate its voice.<br>
+    We go where the world is,<br>
+    hold the microphone still,<br>
+    and let it speak for itself.</p>
+
+    <p class="seal">Made by hand, all the way back</p>
   </section>
 
   <section>
