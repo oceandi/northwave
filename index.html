@@ -251,7 +251,6 @@
         <div class="placard-meta">room-tone-interior-01 · recorded by a person, on the microphone they had · <i>becomes loops</i> · the first delivered sound of the first project</div>
       </div>
     </div>
-    <audio id="tone" src="room-tone-interior-01.m4a" loop preload="none"></audio>
   </header>
 
   <section>
@@ -338,12 +337,11 @@
 <script>
 (function () {
   const btn = document.getElementById('play');
-  const audio = document.getElementById('tone');
   const iconPlay = document.getElementById('icon-play');
   const iconStop = document.getElementById('icon-stop');
   const canvas = document.getElementById('wave');
   const g = canvas.getContext('2d');
-  let ctx = null, analyser = null, raf = 0;
+  let ctx = null, analyser = null, buffer = null, source = null, raf = 0, playing = false;
 
   const styles = getComputedStyle(document.documentElement);
   const BONE = styles.getPropertyValue('--bone').trim();
@@ -375,26 +373,36 @@
     g.globalAlpha = 1;
   }
 
+  function stop() {
+    if (source) { try { source.stop(); } catch (e) {} source = null; }
+    playing = false;
+    cancelAnimationFrame(raf); baseline();
+    iconPlay.style.display = ''; iconStop.style.display = 'none';
+    btn.setAttribute('aria-label', 'Play the first delivered recording');
+  }
+
   btn.addEventListener('click', async () => {
-    if (audio.paused) {
-      if (!ctx) {
-        ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const src = ctx.createMediaElementSource(audio);
-        analyser = ctx.createAnalyser();
-        analyser.fftSize = 2048;
-        src.connect(analyser); analyser.connect(ctx.destination);
-      }
-      await ctx.resume();
-      await audio.play();
-      iconPlay.style.display = 'none'; iconStop.style.display = '';
-      btn.setAttribute('aria-label', 'Stop the recording');
-      draw();
-    } else {
-      audio.pause(); audio.currentTime = 0;
-      cancelAnimationFrame(raf); baseline();
-      iconPlay.style.display = ''; iconStop.style.display = 'none';
-      btn.setAttribute('aria-label', 'Play the first delivered recording');
+    if (playing) { stop(); return; }
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = ctx.createAnalyser();
+      analyser.fftSize = 2048;
+      analyser.connect(ctx.destination);
     }
+    await ctx.resume();
+    if (!buffer) {
+      const bytes = await fetch('room-tone-interior-01.wav').then(r => r.arrayBuffer());
+      buffer = await ctx.decodeAudioData(bytes);
+    }
+    source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.loop = true;
+    source.connect(analyser);
+    source.start();
+    playing = true;
+    iconPlay.style.display = 'none'; iconStop.style.display = '';
+    btn.setAttribute('aria-label', 'Stop the recording');
+    draw();
   });
 })();
 </script>
