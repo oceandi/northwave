@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Northwave Sound Engine</title>
+<title>Northwavé</title>
 <meta name="description" content="Game engine sound shell. A tree of named sound requests, recorded by a person, shipped as a kit to the engine you already use." />
 <style>
   :root {
@@ -227,92 +227,22 @@
 
 <div class="shell">
   <header>
-    <div class="brand">NORTH<b>WAVE</b> · SOUND ENGINE</div>
+    <div class="brand">NORTH<b>WAVÉ</b> · SOUND DEVELOPMENT KIT</div>
     <h1>Works of art make rules; <em>rules do not make works of art.</em></h1>
 
   <div class="store">
-    <div class="big">Northwave Sound Engine, for macOS.</div>
-    <a class="cta" href="https://apps.apple.com/app/id6803100836">App Store</a>
+    <div class="big">Northwavé, for macOS.</div>
+    <a class="cta" href="https://apps.apple.com/app/id6803052791">App Store</a>
   </div>
 
   <footer>
+    <a href="guide.html">The Walk</a><span class="rule">·</span>
     <a href="privacy.html">Privacy</a><span class="rule">·</span>
     <a href="mailto:korkmaz.x7@gmail.com">Contact</a><span class="rule">·</span>
     © 2026 Lonestar Games
   </footer>
 </div>
 
-<script>
-(function () {
-  const btn = document.getElementById('play');
-  const iconPlay = document.getElementById('icon-play');
-  const iconStop = document.getElementById('icon-stop');
-  const canvas = document.getElementById('wave');
-  const g = canvas.getContext('2d');
-  let ctx = null, analyser = null, buffer = null, source = null, raf = 0, playing = false;
 
-  const styles = getComputedStyle(document.documentElement);
-  const BONE = styles.getPropertyValue('--bone').trim();
-  const LINE = styles.getPropertyValue('--line').trim();
-  const WAVE = styles.getPropertyValue('--wave').trim();
-
-  function baseline() {
-    g.clearRect(0, 0, canvas.width, canvas.height);
-    g.strokeStyle = LINE; g.lineWidth = 2;
-    g.beginPath(); g.moveTo(0, canvas.height / 2); g.lineTo(canvas.width, canvas.height / 2); g.stroke();
-  }
-  baseline();
-
-  function draw() {
-    raf = requestAnimationFrame(draw);
-    const data = new Uint8Array(analyser.fftSize);
-    analyser.getByteTimeDomainData(data);
-    g.clearRect(0, 0, canvas.width, canvas.height);
-    g.strokeStyle = WAVE; g.lineWidth = 2.5; g.beginPath();
-    const mid = canvas.height / 2, gain = 4.2;
-    for (let i = 0; i < data.length; i++) {
-      const x = i / data.length * canvas.width;
-      const y = mid + (data[i] - 128) / 128 * mid * gain;
-      i ? g.lineTo(x, y) : g.moveTo(x, y);
-    }
-    g.stroke();
-    g.strokeStyle = BONE; g.globalAlpha = .25; g.lineWidth = 1;
-    g.beginPath(); g.moveTo(0, mid); g.lineTo(canvas.width, mid); g.stroke();
-    g.globalAlpha = 1;
-  }
-
-  function stop() {
-    if (source) { try { source.stop(); } catch (e) {} source = null; }
-    playing = false;
-    cancelAnimationFrame(raf); baseline();
-    iconPlay.style.display = ''; iconStop.style.display = 'none';
-    btn.setAttribute('aria-label', 'Play the first delivered recording');
-  }
-
-  btn.addEventListener('click', async () => {
-    if (playing) { stop(); return; }
-    if (!ctx) {
-      ctx = new (window.AudioContext || window.webkitAudioContext)();
-      analyser = ctx.createAnalyser();
-      analyser.fftSize = 2048;
-      analyser.connect(ctx.destination);
-    }
-    await ctx.resume();
-    if (!buffer) {
-      const bytes = await fetch('room-tone-interior-01.wav').then(r => r.arrayBuffer());
-      buffer = await ctx.decodeAudioData(bytes);
-    }
-    source = ctx.createBufferSource();
-    source.buffer = buffer;
-    source.loop = true;
-    source.connect(analyser);
-    source.start();
-    playing = true;
-    iconPlay.style.display = 'none'; iconStop.style.display = '';
-    btn.setAttribute('aria-label', 'Stop the recording');
-    draw();
-  });
-})();
-</script>
 </body>
 </html>

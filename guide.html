@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Northwavé — The Walk</title>
+<meta name="description" content="From an empty folder to a game that makes sound: the tree, the table, the kit, and Unity — step by step." />
+<style>
+  :root {
+    --ground: #121214; --surface: #191920; --line: #2a2a30;
+    --bone: #e9e5db; --muted: #8f8a7e;
+    --wave: #7fa9d9; --gold: #b99755;
+    --serif: "Iowan Old Style", Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    --mono: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--ground); color: var(--bone); font-family: var(--serif); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: var(--wave); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .shell { max-width: 920px; margin: 0 auto; padding: 0 24px 10vh; }
+  header { padding: 8vh 0 0; }
+  .brand { font-family: var(--mono); font-size: .78rem; letter-spacing: .42em; text-transform: uppercase; color: var(--muted); }
+  .brand b { color: var(--wave); font-weight: 500; }
+  .brand a { color: inherit; }
+  h1 { margin-top: 4vh; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 400; line-height: 1.1; text-wrap: balance; }
+  h1 em { font-style: italic; color: var(--wave); }
+  .lede { margin-top: 1.2rem; max-width: 60ch; color: var(--muted); font-size: 1.05rem; }
+  .lede b { color: var(--bone); font-weight: 500; }
+
+  .step { margin-top: 9vh; }
+  .step .no {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .42em;
+    text-transform: uppercase; color: var(--gold);
+  }
+  .step h2 { margin-top: .7rem; font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 400; }
+  .step p { margin-top: .9rem; max-width: 62ch; color: var(--muted); }
+  .step p b { color: var(--bone); font-weight: 500; }
+  .step img {
+    display: block; width: 100%; margin-top: 1.6rem;
+    border: 1px solid var(--line); border-radius: 10px;
+  }
+  .step .cap {
+    margin-top: .6rem; font-family: var(--mono); font-size: .74rem;
+    letter-spacing: .06em; color: var(--muted);
+  }
+  code, kbd {
+    font-family: var(--mono); font-size: .88em; color: var(--bone);
+    background: #22222a; padding: .1em .45em; border-radius: 4px;
+  }
+  .files {
+    margin-top: 1.2rem; padding: 18px 22px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+    font-family: var(--mono); font-size: .84rem; line-height: 1.9; color: var(--muted);
+    overflow-x: auto;
+  }
+  .files i { font-style: normal; color: var(--wave); }
+  footer { margin-top: 12vh; padding-top: 4vh; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: .85rem; }
+  footer .rule { color: var(--gold); opacity: .6; padding: 0 .6em; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="brand"><a href="/">NORTH<b>WAVÉ</b></a> · THE WALK</div>
+    <h1>From an empty folder to a game that makes sound — <em>in five steps.</em></h1>
+    <p class="lede">
+      Northwavé is a <b>sound development kit</b>: it turns a game's sound design into a request
+      list a person can answer with a microphone. This is the whole walk, exactly as the
+      program teaches it.
+    </p>
+  </header>
+
+  <div class="step">
+    <div class="no">Step 0 · The folder</div>
+    <h2>Open a folder. That is a project.</h2>
+    <p>
+      <kbd>⌘O</kbd> or <b>File ▸ Open Folder…</b> — any folder on your disk. Northwavé makes no
+      database and asks for no account: the project <b>is</b> the folder, and it stays yours.
+      Drop your existing recordings anywhere inside; the explorer on the left shows the folder
+      exactly as the Finder would — <b>green</b> means a recording is used by the book,
+      <b>grey</b> means it is waiting.
+    </p>
+  </div>
+
+  <div class="step">
+    <div class="no">Step 1 · The tree</div>
+    <h2>The tree asks. You record.</h2>
+    <p>
+      Every sound the game needs is a <b>named slot with a reason attached</b> — what to record,
+      how to record it, and why it matters. Pick a branch and read its card. Then either
+      <b>right-click a slot ▸ Record Now</b> (the take is born where it will live, named for the
+      slot that asked), or drag a file you already have onto it. Red is <b>needed</b>; green is
+      delivered; the bar at the top only moves when a sound truly lands.
+    </p>
+    <img src="shots/tree.png" alt="The Tree: a selected branch with its request card — what to record, how, and why" />
+    <div class="cap">a branch asks for thirty unbroken seconds of a room doing nothing — and says why</div>
+  </div>
+
+  <div class="step">
+    <div class="no">Step 2 · The table</div>
+    <h2>One plain-text table and a clock.</h2>
+    <p>
+      The whole design is one readable file — <code>table.csv</code> — six columns:
+      <code>page, thing, when, level, bank, words</code>. <b>When</b> is a menu, not an exam:
+      <code>loops</code> for beds, <code>plays</code> for acts, <code>on</code> for events,
+      <code>follows</code> for ladders, <code>while</code>, <code>door</code>, <code>radio</code>.
+      Beds sit at 0.5; acts speak at 1.0. A person can read it; so can an engine. Nothing locks.
+    </p>
+    <img src="shots/table.png" alt="The Table: 68 rows, each thing with its when and level" />
+    <div class="cap">the book — every row a promise the game can keep</div>
+  </div>
+
+  <div class="step">
+    <div class="no">Step 3 · Hearing</div>
+    <h2>Double-click anything. Stop everything with one key.</h2>
+    <p>
+      Double-click a recording to hear it — through the <b>same mixer the game will use</b>, never
+      a second player, so what you audition is what will ship. The console
+      (top right) carries the transport: what is sounding, for how long, and a stop.
+      <kbd>⌘.</kbd> is <b>Everything Off</b>, always. WAV and Ogg Vorbis both open;
+      loop points travel in WAV's <code>smpl</code> chunk.
+    </p>
+  </div>
+
+  <div class="step">
+    <div class="no">Step 4 · The kit</div>
+    <h2>Hand it to a game.</h2>
+    <p>
+      <kbd>⌘E</kbd> or <b>File ▸ Hand It to a Game…</b> — Northwavé writes a folder a game can
+      read. The README that travels with it lists, honestly, everything that is still missing or
+      wrong: a kit carries its own faults, so the programmer three weeks from now reads a
+      sentence instead of debugging a mystery.
+    </p>
+    <img src="shots/kit.png" alt="The Kit step: what would go out right now, told honestly" />
+    <div class="cap">the tree will not pretend: silent rows are named before they ship</div>
+    <div class="files">
+      First Light kit/<br>
+      ├─ <i>table.csv</i> — the book, as plain text<br>
+      ├─ <i>sounds/</i> — every recording the table names, once each<br>
+      ├─ <i>core/</i> — the engine: one C header, one static lib, one wasm<br>
+      ├─ <i>adapters/</i> — unity · unreal · godot · wwise · fmod<br>
+      ├─ <i>play.html</i> — the whole kit, playable in a browser, no install<br>
+      └─ <i>README.txt</i> — what this kit is, and what is wrong with it
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="no">Step 5 · Unity</div>
+    <h2>Three copies, one menu, press Play.</h2>
+    <p>
+      Copy the kit into <code>Assets/NorthwaveKit</code>, the six scripts from
+      <code>adapters/unity</code> into <code>Assets/Scripts</code> (the editor script into
+      <code>Assets/Editor</code>), and <code>libnorthwave.dylib</code> into
+      <code>Assets/Plugins/macOS</code>. Then one menu item — <b>Northwave ▸ Set up the
+      demo</b> — builds a world around your table: grounds, a walker, a car. Press Play.
+      Footsteps come from <b>your</b> footstep bank; the beds are <b>your</b> rooms.
+    </p>
+    <img src="shots/unity.png" alt="Unity in Play mode: the demo world with the northwave HUD showing live voices" />
+    <div class="cap">voices: 1 — the same table, the same recordings, now inside a game engine</div>
+    <p>
+      The same kit binds to <b>Unreal, Godot, Wwise and FMOD</b> through the adapters folder —
+      and <code>play.html</code> plays it in a browser with nothing installed at all.
+    </p>
+  </div>
+
+  <footer>
+    <a href="/">Northwavé</a><span class="rule">·</span>
+    <a href="privacy.html">Privacy</a><span class="rule">·</span>
+    © 2026 Ahmet Emirhan Korkmaz — Lonestar Games
+  </footer>
+</div>
+</body>
+</html>
